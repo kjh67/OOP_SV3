@@ -3,8 +3,10 @@ package uk.ac.cam.kjh67.q53;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+
+//
+// FILE READING WORKS NOW :D (needed to specify the file path starting from src)
+//
 
 class IntegerPair implements Comparable<IntegerPair>{
     private int first;
@@ -30,24 +32,31 @@ class IntegerPair implements Comparable<IntegerPair>{
     }
 }
 
-
 public class SortingPairsFromFile {
 
     public static void main(String[] args) {
-//        try(Scanner fileScanner = new Scanner(new File(
-//                "C:\\Users\\kirst\\Documents\\Cambridge\\OOP\\SV3\\src\\main\\java\\uk\\ac\\cam\\kjh67\\q53\\CSVPairs.csv"))) {
-//        }
+        ArrayList<IntegerPair> pairs = new ArrayList<>();
 
-//        try(BufferedReader br = new BufferedReader(new FileReader("CSVPairs.csv"))) {
-//            System.out.println("yes");
-//
-//        }
+        try(BufferedReader fileReader = new BufferedReader(new FileReader(
+                "src/main/java/uk/ac/cam/kjh67/q53/CSVPairs.csv")))
+        {
+            String line = "";
+            while((line=fileReader.readLine()) != null) {
+                String[] pairAsString = line.split(",");
+                pairs.add(new IntegerPair(
+                        Integer.parseInt(pairAsString[0]),
+                        Integer.parseInt(pairAsString[1]))
+                );
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        // Aim to get a list of pairs from the file - this is a temporary substitute
-        ArrayList<IntegerPair> pairs = new java.util.ArrayList<>(List.of(new IntegerPair(1, 2), new IntegerPair(3, 3), new IntegerPair(3, 1), new IntegerPair(1, 1), new IntegerPair(1, 2)));
+        // List to sort while file read wasn't working
+        // ArrayList<IntegerPair> pairs = new java.util.ArrayList<>(List.of(new IntegerPair(1, 2), new IntegerPair(3, 3), new IntegerPair(3, 1), new IntegerPair(1, 1), new IntegerPair(1, 2)));
 
         Collections.sort(pairs);
-
         for(IntegerPair pair : pairs) {
             System.out.println(String.format("%s,%s", pair.getFirst(), pair.getSecond()));
         }
